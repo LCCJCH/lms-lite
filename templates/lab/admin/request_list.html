@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}全部申請單{% endblock %}
+
+{% block content %}
+  <a class="back-btn" href="{% url 'lab:admin_dashboard' %}">← 返回總覽</a>
+  <h2>全部申請單</h2>
+
+  <form method="get" class="apply-form filter-form">
+    {% for field in filter_form %}
+      <div class="filter-field">
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {{ field }}
+      </div>
+    {% endfor %}
+    <div class="filter-actions">
+      <button type="submit">篩選</button>
+      <a class="btn-secondary" href="{% url 'lab:admin_request_list' %}">清除</a>
+    </div>
+  </form>
+
+  {% if requests %}
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr><th>申請單號</th><th>樣品名稱</th><th>申請者</th><th>狀態</th><th>送出時間</th><th>排程日期</th><th>操作</th></tr>
+        </thead>
+        <tbody>
+          {% for req in requests %}
+            <tr>
+              <td class="nowrap">{{ req.request_no }}</td>
+              <td>{{ req.sample_name }}</td>
+              <td>{{ req.applicant.first_name|default:req.applicant.username }}</td>
+              <td>{% include "lab/includes/status_badge.html" with status=req.status label=req.get_status_display %}</td>
+              <td class="nowrap">{{ req.submitted_at|date:"Y-m-d H:i"|default:"—" }}</td>
+              <td class="nowrap">{{ req.schedule.scheduled_date|date:"Y-m-d"|default:"—" }}</td>
+              <td class="op-cell"><a class="op-edit" href="{% url 'lab:admin_request_detail' req.pk %}">檢視</a></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <p>沒有符合條件的申請單。</p>
+  {% endif %}
+{% endblock %}

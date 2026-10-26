@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}歷史申請{% endblock %}
+
+{% block content %}
+  <a class="back-btn" href="{% url 'lab:applicant_dashboard' %}">← 返回我的主頁</a>
+  <h2>歷史申請</h2>
+
+  {% if filter_form.errors %}
+    <div class="flash-area">
+      {% for error in filter_form.non_field_errors %}
+        <div class="flash-msg flash-error">{{ error }}</div>
+      {% endfor %}
+      {% for field in filter_form %}
+        {% for error in field.errors %}
+          <div class="flash-msg flash-error">{{ field.label }}：{{ error }}</div>
+        {% endfor %}
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <form method="get" class="apply-form filter-form">
+    {% for field in filter_form %}
+      <div class="filter-field">
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {{ field }}
+      </div>
+    {% endfor %}
+    <div class="filter-actions">
+      <button type="submit">篩選</button>
+      <a class="btn-secondary" href="{% url 'lab:applicant_history' %}">清除</a>
+    </div>
+  </form>
+
+  {% if requests %}
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr><th>申請單號</th><th>樣品名稱</th><th>狀態</th><th>送出時間</th><th>排程日期</th><th>發布時間</th><th>操作</th></tr>
+        </thead>
+        <tbody>
+          {% for req in requests %}
+            <tr>
+              <td class="nowrap">{{ req.request_no|default:"—" }}</td>
+              <td>{{ req.sample_name }}</td>
+              <td>{% include "lab/includes/status_badge.html" with status=req.status label=req.get_status_display %}</td>
+              <td class="nowrap">{{ req.submitted_at|date:"Y-m-d H:i"|default:"—" }}</td>
+              <td class="nowrap">{{ req.schedule.scheduled_date|date:"Y-m-d"|default:"—" }}</td>
+              <td class="nowrap">{{ req.published_at|date:"Y-m-d H:i"|default:"—" }}</td>
+              <td class="op-cell"><a class="op-edit" href="{% url 'lab:applicant_request_detail' req.pk %}">{% if req.status == "result_available" %}查看結果{% else %}檢視{% endif %}</a></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <p>沒有符合條件的申請單。</p>
+  {% endif %}
+{% endblock %}

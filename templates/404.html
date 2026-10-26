@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block title %}找不到頁面{% endblock %}
+
+{% block content %}
+  <h2>找不到頁面（404）</h2>
+  <p>您要找的頁面不存在。</p>
+  <a class="back-btn" href="{% url 'home' %}">回首頁</a>
+{% endblock %}

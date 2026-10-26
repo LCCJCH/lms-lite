@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}申請單 {{ req.request_no }}{% endblock %}
+
+{% block content %}
+  <a class="back-btn" href="{% url 'lab:admin_request_list' %}">← 返回全部申請單</a>
+  <h2>申請單 {{ req.request_no }}
+    {% include "lab/includes/status_badge.html" with status=req.status label=req.get_status_display %}</h2>
+
+  {% if req.status == "returned" and req.return_reason %}
+    <div class="return-reason"><strong>退回理由：</strong>{{ req.return_reason }}<br>等待申請者修改後重新送出。</div>
+  {% endif %}
+
+  <table class="confirm-table">
+    <tr><th>申請者</th><td>{{ req.applicant.first_name|default:req.applicant.username }}（{{ req.applicant.username }}）</td></tr>
+    <tr><th>樣品名稱</th><td>{{ req.sample_name }}</td></tr>
+    <tr><th>樣品描述</th><td>{{ req.sample_description|linebreaksbr|default:"—" }}</td></tr>
+    <tr><th>備註</th><td>{{ req.note|linebreaksbr|default:"—" }}</td></tr>
+    <tr><th>送出時間</th><td>{{ req.submitted_at|date:"Y-m-d H:i"|default:"—" }}</td></tr>
+    {% if schedule %}
+      <tr><th>預定實驗日</th><td>{{ schedule.scheduled_date|date:"Y-m-d" }}</td></tr>
+      <tr><th>指派實驗人員</th><td>{{ schedule.assigned_staff.first_name|default:schedule.assigned_staff.username }}</td></tr>
+      <tr><th>排程者</th><td>{{ schedule.scheduled_by.first_name|default:schedule.scheduled_by.username }}</td></tr>
+      {% if schedule.completed_at %}<tr><th>完成時間</th><td>{{ schedule.completed_at|date:"Y-m-d H:i" }}</td></tr>{% endif %}
+    {% endif %}
+    {% if req.published_at %}<tr><th>發布時間</th><td>{{ req.published_at|date:"Y-m-d H:i" }}</td></tr>{% endif %}
+  </table>
+
+  <h3>檢測項目與結果</h3>
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead>
+        <tr><th>項目</th><th>單位</th><th>定量極限</th><th>結果值</th><th>備註</th></tr>
+      </thead>
+      <tbody>
+        {% for item in items %}
+          <tr>
+            <td>{{ item.test_item.name }}</td>
+            <td>{{ item.test_item.unit }}</td>
+            <td>{{ item.test_item.loq|default:"—" }}</td>
+            <td>{{ item.result_value|default:"—" }}</td>
+            <td>{{ item.result_note|default:"—" }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  {% if can_publish %}
+    <h3>發布結果</h3>
+    <p>發布後申請者即可查看結果，結果不可再修改。</p>
+    <form method="post" action="{% url 'lab:admin_request_publish' req.pk %}" onsubmit="return confirm('確定發布 {{ req.request_no }} 的結果？發布後結果不可再修改。');">
+      {% csrf_token %}<button type="submit" class="btn-primary">發布</button>
+    </form>
+  {% endif %}
+
+  {% if can_accept %}
+    <h3>受理</h3>
+    <form method="post" action="{% url 'lab:admin_request_accept' req.pk %}">
+      {% csrf_token %}<button type="submit" class="btn-primary">受理</button>
+    </form>
+  {% endif %}
+
+  {% if can_return %}
+    <h3>退回修改</h3>
+    <form method="post" action="{% url 'lab:admin_request_return' req.pk %}" class="apply-form">
+      {% csrf_token %}
+      {{ return_form.non_field_errors }}
+      <label for="{{ return_form.reason.id_for_label }}">{{ return_form.reason.label }}</label>
+      {{ return_form.reason }}
+      {{ return_form.reason.errors }}
+      <button type="submit" class="btn-warning">退回</button>
+    </form>
+  {% endif %}
+
+  {% if can_schedule or can_reschedule %}
+    <h3>{% if can_reschedule %}改排程{% else %}排程並指派實驗人員{% endif %}</h3>
+    <form method="post" action="{% if can_reschedule %}{% url 'lab:admin_request_reschedule' req.pk %}{% else %}{% url 'lab:admin_request_schedule' req.pk %}{% endif %}" class="apply-form">
+      {% csrf_token %}
+      {{ schedule_form.non_field_errors }}
+      {% for field in schedule_form %}
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {{ field }}
+        {{ field.errors }}
+      {% endfor %}
+      <button type="submit">{% if can_reschedule %}儲存變更{% else %}排程{% endif %}</button>
+    </form>
+  {% endif %}
+
+  <h3>狀態歷程</h3>
+  {% include "lab/includes/timeline.html" %}
+{% endblock %}

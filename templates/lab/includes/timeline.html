@@ -1,0 +1,9 @@
+<ul class="timeline">
+  {% for log in logs %}
+    <li>
+      <span class="timeline-time">{{ log.created_at|date:"Y-m-d H:i" }} · {{ log.actor.first_name|default:log.actor.username }}</span>
+      {% if not log.from_status %}建立申請單（{{ log.get_to_status_display }}）{% elif log.from_status == log.to_status %}{{ log.get_to_status_display }}（排程變更）{% else %}{{ log.get_from_status_display }} → {{ log.get_to_status_display }}{% endif %}
+      {% if log.comment %}<span class="timeline-comment">{{ log.comment }}</span>{% endif %}
+    </li>
+  {% endfor %}
+</ul>

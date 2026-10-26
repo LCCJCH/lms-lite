@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}申請單 {{ req.request_no|default:"草稿" }}{% endblock %}
+
+{% block content %}
+  <a class="back-btn" href="{% url 'lab:applicant_dashboard' %}">← 返回我的主頁</a>
+  <h2>申請單 {{ req.request_no|default:"（尚未配號）" }}
+    {% include "lab/includes/status_badge.html" with status=req.status label=req.get_status_display %}</h2>
+
+  {% if req.status == "returned" and req.return_reason %}
+    <div class="return-reason"><strong>退回理由：</strong>{{ req.return_reason }}<br>請修改後重新送出。</div>
+  {% endif %}
+
+  <table class="confirm-table">
+    <tr><th>樣品名稱</th><td>{{ req.sample_name }}</td></tr>
+    <tr><th>樣品描述</th><td>{{ req.sample_description|linebreaksbr|default:"—" }}</td></tr>
+    <tr><th>備註</th><td>{{ req.note|linebreaksbr|default:"—" }}</td></tr>
+    <tr><th>送出時間</th><td>{{ req.submitted_at|date:"Y-m-d H:i"|default:"—" }}</td></tr>
+    {% if schedule %}<tr><th>預定實驗日</th><td>{{ schedule.scheduled_date|date:"Y-m-d" }}</td></tr>{% endif %}
+    {% if show_results %}<tr><th>發布時間</th><td>{{ req.published_at|date:"Y-m-d H:i" }}</td></tr>{% endif %}
+  </table>
+
+  <h3>{% if show_results %}檢測結果{% else %}檢測項目{% endif %}</h3>
+  {% if items %}
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr><th>項目</th><th>單位</th><th>定量極限</th>{% if show_results %}<th>結果值</th><th>備註</th>{% else %}<th>說明</th>{% endif %}</tr>
+        </thead>
+        <tbody>
+          {% for item in items %}
+            <tr>
+              <td>{{ item.test_item.name }}</td>
+              <td>{{ item.test_item.unit }}</td>
+              <td>{{ item.test_item.loq|default:"—" }}</td>
+              {% if show_results %}
+                <td>{{ item.result_value }}</td>
+                <td>{{ item.result_note|default:"—" }}</td>
+              {% else %}
+                <td>{{ item.test_item.description|default:"—" }}</td>
+              {% endif %}
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <p>尚未選擇檢測項目。</p>
+  {% endif %}
+
+  {% if can_edit or can_withdraw or can_delete %}
+    <div class="confirm-actions">
+      {% if can_edit %}
+        <a class="btn-secondary" href="{% url 'lab:applicant_request_edit' req.pk %}">修改</a>
+        <form method="post" action="{% url 'lab:applicant_request_submit' req.pk %}">
+          {% csrf_token %}<button type="submit" class="btn-primary">送出</button>
+        </form>
+      {% endif %}
+      {% if can_withdraw %}
+        <form method="post" action="{% url 'lab:applicant_request_withdraw' req.pk %}">
+          {% csrf_token %}<button type="submit" class="btn-secondary">撤回</button>
+        </form>
+      {% endif %}
+      {% if can_delete %}
+        <form method="post" action="{% url 'lab:applicant_request_delete' req.pk %}" onsubmit="return confirm('確定刪除這份草稿？刪除後無法復原。');">
+          {% csrf_token %}<button type="submit" class="op-delete">刪除草稿</button>
+        </form>
+      {% endif %}
+    </div>
+  {% endif %}
+
+  <h3>狀態歷程</h3>
+  {% include "lab/includes/timeline.html" %}
+{% endblock %}

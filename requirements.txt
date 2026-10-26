@@ -1,0 +1,12 @@
+# 執行期套件（簡報 §2 允許的五個）
+Django==5.2.17
+gunicorn==26.2.0
+whitenoise==6.12.0
+dj-database-url==3.1.2
+psycopg[binary]==3.3.6
+
+# 遞移依賴
+asgiref==3.12.1
+packaging==26.3
+sqlparse==0.6.0
+tzdata==2026.5

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}登入{% endblock %}
+
+{% block content %}
+  <h2>登入</h2>
+  <div class="auth-block">
+    <form method="post" action="{% url 'login' %}">
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+      {% for field in form %}
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {{ field }}
+        {{ field.errors }}
+      {% endfor %}
+      <input type="hidden" name="next" value="{{ next }}">
+      <button type="submit">登入</button>
+    </form>
+  </div>
+  <p>還沒有帳號？<a href="{% url 'register' %}">以邀請碼註冊</a></p>
+{% endblock %}

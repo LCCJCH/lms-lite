@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}首頁{% endblock %}
+
+{% block content %}
+  <h2>歡迎使用實驗室申請系統</h2>
+  <p>這是一個線上操作的實驗室申請系統，展示申請者、Admin 與實驗人員三個角色之間的完整流程：</p>
+  <ul>
+    <li>申請者建立申請單並送出</li>
+    <li>Admin 受理（或退回修改）、排程並指派實驗人員</li>
+    <li>實驗人員開始實驗、逐項輸入結果、完成</li>
+    <li>Admin 檢視結果並發布，申請者在個人主頁查看</li>
+  </ul>
+  <div class="confirm-actions">
+    <a class="btn-primary" href="{% url 'login' %}">登入</a>
+    <a class="btn-secondary" href="{% url 'register' %}">註冊（需邀請碼）</a>
+  </div>
+{% endblock %}

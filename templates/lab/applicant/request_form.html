@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}{% if req %}修改申請{% else %}新增申請{% endif %}{% endblock %}
+
+{% block content %}
+  <a class="back-btn" href="{% if req %}{% url 'lab:applicant_request_detail' req.pk %}{% else %}{% url 'lab:applicant_dashboard' %}{% endif %}">← 返回</a>
+  <h2>{% if req %}修改申請 {{ req.request_no|default:"" }}{% else %}新增申請{% endif %}</h2>
+
+  {% if req and req.status == "returned" and req.return_reason %}
+    <div class="return-reason"><strong>退回理由：</strong>{{ req.return_reason }}</div>
+  {% endif %}
+
+  <form method="post" class="apply-form">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+
+    {% for field in form %}
+      {% if field.name == "test_items" %}
+        <label>{{ field.label }} <span class="hint">（送出前至少勾選一項）</span></label>
+        {% if field.field.queryset %}
+          {% for category, rows, has_selected in form.test_item_groups %}
+            <details class="checkbox-group"{% if has_selected %} open{% endif %}>
+              <summary>{{ category }}（{{ rows|length }} 項）</summary>
+              <ul class="checkbox-list">
+                {% for item, cb in rows %}
+                  <li><label for="{{ cb.id_for_label }}">{{ cb.tag }}<span>{{ item.name }}{% if not item.is_active %}［已停用］{% endif %}
+                    <small class="item-meta">單位 {{ item.unit }}｜定量極限 {{ item.loq|default:"—" }}{% if item.description %}｜{{ item.description }}{% endif %}</small></span></label></li>
+                {% endfor %}
+              </ul>
+            </details>
+          {% endfor %}
+        {% else %}
+          <p>目前沒有可選的檢測項目。</p>
+        {% endif %}
+      {% else %}
+        <label for="{{ field.id_for_label }}">{{ field.label }}{% if not field.field.required %} <span class="hint">（選填）</span>{% endif %}</label>
+        {{ field }}
+      {% endif %}
+      {{ field.errors }}
+    {% endfor %}
+
+    <div class="confirm-actions">
+      <button type="submit" name="action" value="save" class="btn-secondary">儲存草稿</button>
+      <button type="submit" name="action" value="submit">送出</button>
+    </div>
+  </form>
+{% endblock %}

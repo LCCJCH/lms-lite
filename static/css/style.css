@@ -1,0 +1,652 @@
+/* ========== 全域重設 ========== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ========== Body 背景 - 使用 bg.jpg 延展置中 ========== */
+body {
+    background: url("../image/bg.jpg") no-repeat center center fixed;
+    background-size: cover;
+    font-family: 'Arial', 'Microsoft JhengHei', sans-serif;
+    color: #222;
+    min-height: 100vh;
+}
+
+/* ========== 半透明內容容器 ========== */
+.container {
+    max-width: 900px;
+    margin: 30px auto;
+    background: rgba(255, 255, 255, 0.88);
+    border-radius: 12px;
+    padding: 30px 40px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+}
+
+/* ========== 頁首 / 標題區 ========== */
+header {
+    background: rgba(30, 60, 100, 0.92);
+    color: #fff;
+    text-align: center;
+    padding: 18px 0 10px 0;
+    border-radius: 10px 10px 0 0;
+    margin-bottom: 0;
+}
+
+header h1 {
+    font-size: 26px;
+    color: #f0e040;
+    letter-spacing: 2px;
+}
+
+header p {
+    font-size: 13px;
+    color: #cce0ff;
+    background: transparent;
+    height: auto;
+    width: auto;
+    margin-top: 4px;
+}
+
+/* ========== 導覽列 ========== */
+nav {
+    background: rgba(20, 40, 80, 0.85);
+    padding: 10px 0;
+    text-align: center;
+    border-radius: 0 0 8px 8px;
+    margin-bottom: 24px;
+}
+
+nav a {
+    color: #ffe066;
+    text-decoration: none;
+    margin: 0 18px;
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    transition: color 0.2s;
+}
+
+nav a:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+/* ========== h1 ~ h6 ========== */
+h1 {
+    color: #1a3a6b;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+h2 {
+    color: #2a5aa0;
+    font-size: 20px;
+    margin: 16px 0 8px 0;
+    border-left: 4px solid #4a90d9;
+    padding-left: 10px;
+}
+
+h3 {
+    color: #3a6a8a;
+    font-size: 17px;
+    margin: 12px 0 6px 0;
+}
+
+/* ========== 段落 ========== */
+p {
+    width: auto;
+    height: auto;
+    background-color: transparent;
+    font-size: 15px;
+    line-height: 1.7;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+/* ========== 超連結 ========== */
+a {
+    color: #1a5fa8;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+a:hover {
+    color: #e05800;
+    text-decoration: underline;
+}
+
+/* ========== 水平線 ========== */
+hr {
+    border: none;
+    border-top: 2px solid #b0c8e8;
+    margin: 18px 0;
+}
+
+/* ========== 列表 ========== */
+ul {
+    padding-left: 22px;
+    margin-bottom: 10px;
+}
+
+ul li {
+    font-size: 15px;
+    line-height: 2;
+    color: #333;
+}
+
+/* ========== 回首頁按鈕 ========== */
+.back-btn {
+    display: inline-block;
+    margin-top: 18px;
+    background: #2a5aa0;
+    color: #fff !important;
+    padding: 8px 22px;
+    border-radius: 6px;
+    font-size: 14px;
+    text-decoration: none !important;
+    transition: background 0.2s;
+}
+
+.back-btn:hover {
+    background: #e05800;
+}
+
+/* ========== 頁尾 ========== */
+footer {
+    text-align: center;
+    color: #888;
+    font-size: 13px;
+    margin-top: 30px;
+    padding: 12px 0;
+    border-top: 1px solid #ccc;
+}
+
+/* ========== 登入 / 註冊表單（新增） ========== */
+.auth-block {
+    margin: 18px 0;
+}
+
+.auth-block form {
+    display: flex;
+    flex-direction: column;
+    max-width: 320px;
+}
+
+.auth-block label {
+    font-size: 14px;
+    color: #2a5aa0;
+    margin: 8px 0 4px 0;
+    font-weight: bold;
+}
+
+.auth-block input {
+    padding: 8px 10px;
+    font-size: 15px;
+    border: 2px solid #4a90d9;
+    border-radius: 6px;
+}
+
+.auth-block button {
+    margin-top: 14px;
+    background: #1a5fa8;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 9px 22px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background 0.2s;
+    align-self: flex-start;
+}
+
+.auth-block button:hover {
+    background: #e05800;
+}
+
+/* ========== flash 訊息（新增） ========== */
+.flash-area {
+    margin: 14px 0;
+}
+
+.flash-msg {
+    background: rgba(255, 245, 200, 0.95);
+    border-left: 4px solid #e0a000;
+    color: #7a5000;
+    padding: 10px 14px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    font-size: 15px;
+}
+
+/* ========== 通用按鈕（新增） ========== */
+.btn-primary {
+    display: inline-block;
+    background: #1a5fa8;
+    color: #fff !important;
+    border: none;
+    border-radius: 6px;
+    padding: 9px 22px;
+    font-size: 15px;
+    cursor: pointer;
+    text-decoration: none !important;
+    transition: background 0.2s;
+}
+.btn-primary:hover { background: #e05800; }
+
+.btn-secondary {
+    display: inline-block;
+    background: #888;
+    color: #fff !important;
+    border: none;
+    border-radius: 6px;
+    padding: 9px 22px;
+    font-size: 15px;
+    cursor: pointer;
+    text-decoration: none !important;
+    transition: background 0.2s;
+}
+.btn-secondary:hover { background: #555; }
+
+/* ========== 申請填表 ========== */
+.apply-form {
+    display: flex;
+    flex-direction: column;
+    max-width: 480px;
+}
+.apply-form label {
+    font-size: 14px;
+    color: #2a5aa0;
+    font-weight: bold;
+    margin: 10px 0 4px 0;
+}
+.apply-form .hint {
+    color: #999;
+    font-weight: normal;
+    font-size: 12px;
+}
+.apply-form input,
+.apply-form textarea,
+.apply-form select {
+    padding: 8px 10px;
+    font-size: 15px;
+    border: 2px solid #4a90d9;
+    border-radius: 6px;
+    font-family: inherit;
+}
+.apply-form button {
+    margin-top: 16px;
+    align-self: flex-start;
+    background: #1a5fa8;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 9px 24px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.apply-form button:hover { background: #e05800; }
+
+/* 檢測項目多選核取方塊 */
+.apply-form .checkbox-list {
+    list-style: none;
+    padding: 6px 0;
+    margin: 0;
+}
+.apply-form .checkbox-list li {
+    line-height: 1.6;
+    margin-bottom: 6px;
+}
+.apply-form .checkbox-list label {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-weight: normal;
+    color: #333;
+    margin: 0;
+    cursor: pointer;
+}
+.apply-form .checkbox-group {
+    border: 1px solid #c8d6e8;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    background: #fff;
+}
+.apply-form .checkbox-group summary {
+    padding: 10px 12px;
+    font-weight: bold;
+    color: #1a5fa8;
+    cursor: pointer;
+}
+.apply-form .checkbox-group[open] summary {
+    border-bottom: 1px solid #e3eaf3;
+}
+.apply-form .checkbox-group .checkbox-list {
+    padding: 8px 12px;
+}
+.apply-form .checkbox-list .item-meta {
+    display: block;
+    font-size: 13px;
+    color: #666;
+    line-height: 1.4;
+}
+.apply-form input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    margin-top: 3px;
+    padding: 0;
+    flex-shrink: 0;
+    accent-color: #1a5fa8;
+}
+
+/* ========== 確認表格 ========== */
+.confirm-table {
+    width: 100%;
+    max-width: 560px;
+    border-collapse: collapse;
+    margin: 16px 0;
+    background: rgba(255,255,255,0.8);
+}
+.confirm-table th,
+.confirm-table td {
+    border: 1px solid #b0c8e8;
+    padding: 10px 14px;
+    text-align: left;
+    font-size: 15px;
+}
+.confirm-table th {
+    background: rgba(30,60,100,0.85);
+    color: #fff;
+    width: 130px;
+}
+.confirm-actions {
+    margin: 20px 0;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+/* ========== 資料清單表格 ========== */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    background: rgba(255,255,255,0.85);
+    font-size: 14px;
+}
+.data-table th,
+.data-table td {
+    border: 1px solid #b0c8e8;
+    padding: 8px 10px;
+    text-align: center;
+}
+.data-table thead th {
+    background: rgba(30,60,100,0.9);
+    color: #fff;
+}
+.data-table tbody tr:hover { background: rgba(230,245,255,0.7); }
+.op-cell { font-size: 12px; }
+/* 單號、日期、操作按鈕不換行；寬度不夠時由 .table-wrap 橫向捲動 */
+.data-table th,
+.data-table td.nowrap,
+.data-table td.op-cell { white-space: nowrap; }
+
+/* ========== 申請成功泡泡 ========== */
+.success-bubble {
+    text-align: center;
+    background: rgba(225, 255, 230, 0.95);
+    border: 2px solid #4caf50;
+    border-radius: 12px;
+    padding: 28px;
+    margin: 24px auto;
+    max-width: 460px;
+}
+.success-icon { font-size: 44px; }
+.success-bubble h2 { color: #2e7d32; border: none; }
+.code-line { font-size: 16px; margin: 6px 0; }
+
+/* ========== 表格操作按鈕（修改/刪除） ========== */
+.op-edit {
+    display: inline-block;
+    background: #2a5aa0;
+    color: #fff !important;
+    padding: 4px 12px;
+    border-radius: 5px;
+    font-size: 13px;
+    text-decoration: none !important;
+    margin-right: 4px;
+}
+.op-edit:hover { background: #1a3a6b; }
+
+.op-delete {
+    background: #c0392b;
+    color: #fff;
+    border: none;
+    padding: 4px 12px;
+    border-radius: 5px;
+    font-size: 13px;
+    cursor: pointer;
+}
+.op-delete:hover { background: #922; }
+
+/* ========== 導覽列：使用者與登出 ========== */
+nav .nav-user {
+    color: #cce0ff;
+    font-size: 14px;
+    margin: 0 8px 0 18px;
+}
+nav .nav-logout {
+    display: inline;
+}
+nav .nav-logout button {
+    background: transparent;
+    color: #ffe066;
+    border: 1px solid #ffe066;
+    border-radius: 5px;
+    padding: 2px 10px;
+    font-size: 14px;
+    cursor: pointer;
+}
+nav .nav-logout button:hover {
+    background: #e05800;
+    border-color: #e05800;
+    color: #fff;
+}
+
+/* ========== 表單錯誤訊息 ========== */
+.errorlist {
+    list-style: none;
+    padding: 0;
+    margin: 4px 0 0 0;
+}
+.errorlist li {
+    color: #c0392b;
+    font-size: 13px;
+    line-height: 1.5;
+}
+.flash-msg.flash-success {
+    background: rgba(225, 255, 230, 0.95);
+    border-left-color: #4caf50;
+    color: #2e7d32;
+}
+.flash-msg.flash-error {
+    background: rgba(255, 230, 228, 0.95);
+    border-left-color: #c0392b;
+    color: #922;
+}
+
+/* ========== 狀態徽章（簡報 §5 的八種狀態） ========== */
+.status-badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: bold;
+    color: #fff;
+    background: #888;
+    white-space: nowrap;
+}
+.status-draft            { background: #888; }
+.status-submitted        { background: #2a5aa0; }
+.status-returned         { background: #e05800; }
+.status-accepted         { background: #3a6a8a; }
+.status-scheduled        { background: #6a4c9c; }
+.status-in_progress      { background: #d4a000; color: #222; }
+.status-completed        { background: #1a7a8a; }
+.status-result_available { background: #2e7d32; }
+
+/* ========== 總覽件數卡片 ========== */
+.stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 12px;
+    margin: 12px 0 20px 0;
+}
+.stat-card {
+    display: block;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid #b0c8e8;
+    border-top: 4px solid #1a5fa8;
+    border-radius: 8px;
+    padding: 12px;
+    text-align: center;
+    color: #1a3a6b !important;
+    text-decoration: none !important;
+}
+.stat-card:hover { border-top-color: #e05800; }
+.stat-card .stat-count {
+    display: block;
+    font-size: 28px;
+    font-weight: bold;
+}
+.stat-card .stat-label {
+    display: block;
+    font-size: 13px;
+    color: #555;
+}
+
+/* ========== 狀態時間軸 ========== */
+.timeline {
+    list-style: none;
+    padding: 0 0 0 18px;
+    margin: 12px 0;
+    border-left: 3px solid #b0c8e8;
+}
+.timeline li {
+    position: relative;
+    padding: 0 0 14px 14px;
+    line-height: 1.6;
+}
+.timeline li::before {
+    content: "";
+    position: absolute;
+    left: -26px;
+    top: 5px;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background: #1a5fa8;
+    border: 2px solid #fff;
+}
+.timeline .timeline-time {
+    display: block;
+    font-size: 12px;
+    color: #888;
+}
+.timeline .timeline-comment {
+    display: block;
+    font-size: 14px;
+    color: #555;
+    white-space: pre-line;
+}
+
+/* ========== 表格橫向捲動容器、結果輸入框 ========== */
+.table-wrap {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+.table-wrap .data-table { min-width: 560px; }
+.data-table input[type="text"] {
+    width: 100%;
+    min-width: 110px;
+    padding: 6px 8px;
+    font-size: 14px;
+    border: 2px solid #4a90d9;
+    border-radius: 5px;
+    font-family: inherit;
+}
+
+/* ========== 申請單：退回理由、表單內次要按鈕 ========== */
+.return-reason {
+    background: rgba(255, 236, 220, 0.95);
+    border-left: 4px solid #e05800;
+    color: #7a3000;
+    padding: 10px 14px;
+    border-radius: 6px;
+    margin: 12px 0;
+    white-space: pre-line;
+}
+.apply-form button.btn-secondary { background: #888; }
+.apply-form button.btn-secondary:hover { background: #555; }
+.confirm-actions { flex-wrap: wrap; }
+.confirm-actions form { display: inline; margin: 0; }
+
+/* ========== Admin：退回按鈕、清單篩選列 ========== */
+.apply-form button.btn-warning { background: #c0392b; }
+.apply-form button.btn-warning:hover { background: #8e2a20; }
+.filter-form {
+    max-width: none;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 10px 14px;
+    margin-bottom: 16px;
+}
+.filter-form .filter-field {
+    display: flex;
+    flex-direction: column;
+    min-width: 150px;
+    flex: 1 1 150px;
+}
+.filter-form .filter-field label { margin-top: 0; }
+.filter-form .filter-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+.filter-form .filter-actions button { margin-top: 0; }
+
+/* ========== 實驗人員：排程清單、結果輸入 ========== */
+.overdue {
+    display: inline-block;
+    margin-left: 4px;
+    padding: 0 6px;
+    border-radius: 4px;
+    font-size: 12px;
+    color: #fff;
+    background: #c0392b;
+}
+.empty-text { color: #777; }
+.form-hint { font-size: 13px; color: #666; margin-top: 8px; }
+.data-table tr.row-missing td { background: rgba(255, 230, 228, 0.95); }
+.data-table tr.row-missing input[type="text"] { border-color: #c0392b; }
+
+/* ========== 窄螢幕（手機） ========== */
+@media (max-width: 600px) {
+    .container {
+        margin: 0;
+        border-radius: 0;
+        padding: 16px 14px;
+        min-height: 100vh;
+    }
+    header h1 { font-size: 21px; }
+    nav { line-height: 2; }
+    nav a { margin: 0 8px; font-size: 15px; }
+    nav .nav-user { display: block; margin: 4px 0 0 0; }
+    .auth-block form,
+    .apply-form { max-width: 100%; }
+    .confirm-actions { flex-wrap: wrap; }
+}

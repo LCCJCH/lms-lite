@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}註冊{% endblock %}
+
+{% block content %}
+  <h2>申請者註冊</h2>
+  <p>請輸入課程提供的邀請碼。註冊後即可建立實驗申請。</p>
+  <div class="auth-block">
+    <form method="post" action="{% url 'register' %}">
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+      {% for field in form %}
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {{ field }}
+        {{ field.errors }}
+      {% endfor %}
+      <button type="submit">註冊</button>
+    </form>
+  </div>
+  <p>已經有帳號？<a href="{% url 'login' %}">登入</a></p>
+{% endblock %}

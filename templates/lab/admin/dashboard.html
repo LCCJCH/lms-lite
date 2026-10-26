@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Admin 總覽{% endblock %}
+
+{% block content %}
+  <h2>Admin 總覽</h2>
+  <p>歡迎，{{ user.first_name|default:user.username }}。帳號、群組與檢測項目主檔請至<a href="{% url 'admin:index' %}">管理後台</a>維護。</p>
+
+  <div class="stat-grid">
+    {% for s in stats %}
+      <a class="stat-card" href="{% url 'lab:admin_request_list' %}?status={{ s.status }}">
+        <span class="stat-count">{{ s.count }}</span>
+        <span class="stat-label">{{ s.label }}</span>
+      </a>
+    {% endfor %}
+  </div>
+
+  <h3>待受理清單</h3>
+  {% if pending %}
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr><th>申請單號</th><th>樣品名稱</th><th>申請者</th><th>送出時間</th><th>操作</th></tr>
+        </thead>
+        <tbody>
+          {% for req in pending %}
+            <tr>
+              <td class="nowrap">{{ req.request_no }}</td>
+              <td>{{ req.sample_name }}</td>
+              <td>{{ req.applicant.first_name|default:req.applicant.username }}</td>
+              <td class="nowrap">{{ req.submitted_at|date:"Y-m-d H:i" }}</td>
+              <td class="op-cell"><a class="op-edit" href="{% url 'lab:admin_request_detail' req.pk %}">處理</a></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <p>目前沒有待受理的申請單。</p>
+  {% endif %}
+  <p><a class="btn-secondary" href="{% url 'lab:admin_request_list' %}">檢視全部申請單</a></p>
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}我的主頁{% endblock %}
+
+{% block content %}
+  <h2>我的主頁</h2>
+  <p>歡迎，{{ user.first_name|default:user.username }}。</p>
+  <p><a class="btn-primary" href="{% url 'lab:applicant_request_new' %}">＋ 新增申請</a></p>
+
+  <h3>進行中的申請</h3>
+  {% if active_requests %}
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr><th>申請單號</th><th>樣品名稱</th><th>狀態</th><th>送出時間</th><th>排程日期</th><th>操作</th></tr>
+        </thead>
+        <tbody>
+          {% for req in active_requests %}
+            <tr>
+              <td class="nowrap">{{ req.request_no|default:"—" }}</td>
+              <td>{{ req.sample_name }}</td>
+              <td>{% include "lab/includes/status_badge.html" with status=req.status label=req.get_status_display %}</td>
+              <td class="nowrap">{{ req.submitted_at|date:"Y-m-d H:i"|default:"—" }}</td>
+              <td class="nowrap">{{ req.schedule.scheduled_date|date:"Y-m-d"|default:"—" }}</td>
+              <td class="op-cell"><a class="op-edit" href="{% url 'lab:applicant_request_detail' req.pk %}">檢視</a></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <p>目前沒有進行中的申請。</p>
+  {% endif %}
+
+  <h3>最近發布的結果</h3>
+  {% if published_requests %}
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr><th>申請單號</th><th>樣品名稱</th><th>發布時間</th><th>操作</th></tr>
+        </thead>
+        <tbody>
+          {% for req in published_requests %}
+            <tr>
+              <td class="nowrap">{{ req.request_no }}</td>
+              <td>{{ req.sample_name }}</td>
+              <td class="nowrap">{{ req.published_at|date:"Y-m-d H:i" }}</td>
+              <td class="op-cell"><a class="op-edit" href="{% url 'lab:applicant_request_detail' req.pk %}">查看結果</a></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <p>尚無已發布的結果。</p>
+  {% endif %}
+  <p><a href="{% url 'lab:applicant_history' %}">查看全部歷史申請 →</a></p>
+{% endblock %}

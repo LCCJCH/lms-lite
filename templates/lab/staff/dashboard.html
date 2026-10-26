@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}我的排程{% endblock %}
+
+{% block content %}
+  <h2>我的排程</h2>
+  <p>歡迎，{{ user.first_name|default:user.username }}。今天是 {{ today|date:"Y-m-d" }}。</p>
+
+  {% for title, schedules, empty_text in sections %}
+    <h3>{{ title }}（{{ schedules|length }}）</h3>
+    {% if schedules %}
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr><th>申請單號</th><th>樣品名稱</th><th>預定實驗日</th><th>狀態</th><th>操作</th></tr>
+          </thead>
+          <tbody>
+            {% for sched in schedules %}
+              <tr>
+                <td class="nowrap">{{ sched.request.request_no }}</td>
+                <td>{{ sched.request.sample_name }}</td>
+                <td class="nowrap">{{ sched.scheduled_date|date:"Y-m-d" }}{% if sched.request.status == "scheduled" and sched.scheduled_date < today %} <span class="overdue">已逾期</span>{% endif %}</td>
+                <td>{% include "lab/includes/status_badge.html" with status=sched.request.status label=sched.request.get_status_display %}</td>
+                <td class="op-cell"><a class="op-edit" href="{% url 'lab:staff_schedule_detail' sched.pk %}">檢視</a></td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <p class="empty-text">{{ empty_text }}</p>
+    {% endif %}
+  {% endfor %}
+{% endblock %}
